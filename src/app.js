@@ -9,7 +9,12 @@ const { validateSignUpData } = require('./utils/validation')
 const { userAuth } = require('./middlewares/auth')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const cors = require('cors')
 
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow requests from the specified origin
+    credentials: true, // Send cookies with the response
+})); // Enable CORS for all requests
 
 app.use(express.json()); // To parse JSON request bodies
 app.use(cookieParser()); // To parse cookies

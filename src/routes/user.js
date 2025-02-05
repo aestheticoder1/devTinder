@@ -40,15 +40,15 @@ userRouter.get("/user/connections",
             const connectionRequests = await ConnectionRequest.find({
                 $or: [
                     { fromUserId: loggedInUser._id, status: 'accepted' },
-                    { toUserId: loggedInUser._id, status: 'accepted'}
+                    { toUserId: loggedInUser._id, status: 'accepted' }
                 ]
             }).populate("fromUserId", USER_SAFE_DATA).populate("toUserId", USER_SAFE_DATA)
 
             const data = connectionRequests.map((row) => {
-                if(row.fromUserId._id.toString() === loggedInUser._id.toString()){
+                if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
                     return row.toUserId
                 }
-                else{
+                else {
                     return row.fromUserId
                 }
             });
@@ -72,9 +72,9 @@ userRouter.get("/feed",
             const loggedInUser = req.user;
             const page = parseInt(req.query.page) || 1;
             let limit = parseInt(req.query.limit) || 10;
-            limit = limit > 50 ? 50: limit;
-            const skip = (page-1)*(limit);
-            
+            limit = limit > 50 ? 50 : limit;
+            const skip = (page - 1) * (limit);
+
 
             // USER SHOULD SEE ALL THE USER CARDS EXCEPT :
             // 1. THE USER HIMSELF - DONE
@@ -82,7 +82,7 @@ userRouter.get("/feed",
             // 3. USERS THAT HE HAS REQUESTED TO CONNECT WITH - DONE
             // 4. USERS THAT HE HAS IGNORED - DONE
             // 5. USERS THAT HAS SENT HIM THE CONNECTION REQUEST - DONE
-           
+
             // FIRST, FIND ALL CONNECTION REQUESTS (SENT + RECEIVED)
             const connectionRequests = await ConnectionRequest.find({
                 $or: [
@@ -109,9 +109,9 @@ userRouter.get("/feed",
                     { _id: { $ne: loggedInUser._id } }
                 ]
             }).select(USER_SAFE_DATA)
-            .skip(skip).limit(limit)
+                .skip(skip).limit(limit)
 
-            res.json({data: users});
+            res.json({ data: users });
 
             // res.status(200).json({connectionRequests})
         }

@@ -26,8 +26,15 @@ authRouter.post('/signup', async (req, res) => {
     })
 
     try {
-        await user.save();
-        res.send("User registered successfully!");
+        const savedUser = await user.save();
+        const token = await savedUser.getJWT();
+            
+        res.cookie("token", token, {expires: new Date(Date.now() + 8*3600000)}); //EXPIRES IN 8 HOURS
+
+        res.json({
+            message:"User registered successfully!",
+            data: savedUser
+        });
     }
     catch (err) {
         res.status(400).send("Error : " + err.message);
@@ -55,7 +62,7 @@ authRouter.post('/login', async (req, res) => {
             // PASS THE TOKEN IN THE COOKIE THEN TO THE RESPONSE
             res.cookie("token", token, {expires: new Date(Date.now() + 8*3600000)}); //EXPIRES IN 8 HOURS
 
-            res.send("Login successful!");
+            res.send(user);
         }
         else {
             throw new Error("Invalid credentials");
