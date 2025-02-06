@@ -11,6 +11,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cors = require('cors')
 
+require("dotenv").config()
+
 app.use(cors({
     origin: 'http://localhost:5173', // Allow requests from the specified origin
     credentials: true, // Send cookies with the response
@@ -32,7 +34,7 @@ app.use('/', userRouter);
 connectDB()
     .then(() => {
         console.log("MongoDB Connected...");
-        app.listen(7777, () => {
+        app.listen(process.env.PORT, () => {
             console.log('Server is running on port 7777');
         });
     }).catch(err => {
