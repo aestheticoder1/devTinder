@@ -11,7 +11,7 @@ const userAuth = async (req, res, next) => {
         if (!token) {
             return res.status(401).send("Please Login!")
         }
-        const decodedMessage = await jwt.verify(token, process.env.JWT_SECRET);
+        const decodedMessage = await jwt.verify(token, "DEV@Tinder$798");
         const { _id } = decodedMessage;
 
         // FIND THE USER IN THE DATABASE
