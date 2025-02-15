@@ -11,7 +11,9 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cors = require('cors')
 
-require("dotenv").config()
+require("dotenv").config();
+
+require('./utils/cronjob');
 
 app.use(cors({
     origin: 'http://localhost:5173', // Allow requests from the specified origin
@@ -24,12 +26,14 @@ app.use(cookieParser()); // To parse cookies
 const authRouter = require('./routes/auth');
 const profileRouter = require('./routes/profile');
 const requestRouter = require('./routes/requests');
-const userRouter = require('./routes/user')
+const userRouter = require('./routes/user');
+const paymentRouter = require('./routes/payment');
 
 app.use('/',authRouter);
 app.use('/',profileRouter);
 app.use('/', requestRouter);
 app.use('/', userRouter);
+app.use('/',paymentRouter)
 
 connectDB()
     .then(() => {

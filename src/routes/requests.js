@@ -52,11 +52,11 @@ requestRouter.post("/request/send/:status/:toUserId",
 
             const data = await connectionRequest.save();
 
-            const emailResult = await sendEmail.run(
-                "New Connection Request from " + req.user.firstName,
-                req.user.firstName + " is "+ status + " in " + toUser.firstName
-            );
-            console.log(emailResult);
+            // const emailResult = await sendEmail.run(
+            //     "New Connection Request from " + req.user.firstName,
+            //     req.user.firstName + " is "+ status + " in " + toUser.firstName
+            // );
+            // console.log(emailResult);
 
             res.json({
                 message: "Connection request sent successfully",
